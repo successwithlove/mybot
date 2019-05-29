@@ -14,7 +14,11 @@ session_api = vk_session.get_api()
 longpoll = VkLongPoll(vk_session)
 
 hi = ["привет", "приве", "хоп хей", "ку", "здрасте", "здрасьте", "здравствуй", "здравствуйте", "добрый день",
-     "доброе утро", "добрый вечер", "здорова", "здоров", "салют", "хай"]
+     "доброе утро", "добрый вечер", "здорова", "здоров", "салют", "хай", "хелло", "хеллоу", "хелоу", "хело"]
+
+def send(x):
+    vk_session.method('messages.send',
+                      {'user_id': event.user_id, 'message': x, 'random_id': 0})
 
 while True:
     for event in longpoll.listen():
@@ -25,8 +29,11 @@ while True:
             response = event.text.lower()
             if event.from_user and not (event.from_me):
                 if hi.count(response) == True:
-                    vk_session.method('messages.send',
-                                      {'user_id': event.user_id, 'message': 'Привет привет!', 'random_id': 0})
+                    send("Привет привет!")
+
                 if response == "король здесь" and event.user_id == idпользователя:
-                    vk_session.method('messages.send',
-                                      {'user_id': event.user_id, 'message': 'Приветствую вас, ваше величество!', 'random_id': 0})
+                    send("Приветствую вас, ваше величество!")
+
+                if hi.count(response) == False:
+                    send('Пожалуйста, поздоровайтесь! Попроще и по-русски!')
+
